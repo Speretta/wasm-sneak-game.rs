@@ -107,7 +107,7 @@ impl Game{
             self.draw_block((location.x, location.y), &self.snake.color);
             if i == 0{
                 if (self.apple_location.0 == location.x)&&(self.apple_location.1 == location.y){
-                    self.snake.increase_body();
+                    self.snake.increase_body(1);
                     self.apple_location = (0,0);
                 }
             }
@@ -252,19 +252,21 @@ impl Snake{
         }
     }
 
-    fn increase_body(&mut self){
-        if let Some(head) = self.body.get(0){
-            let mut location = head.1.clone();
-            let new_head = (head.0.clone(), match head.0{
-                Direction::UP => {location.y -= 1; location},
-                Direction::DOWN =>{ location.y += 1; location},
-                Direction::RIGHT => {location.x += 1; location},
-                Direction::LEFT => {location.x -= 1; location},
-
-            });
-            self.body.insert(0, new_head);
+    fn increase_body(&mut self, amount: u32){
+        for _ in 0..amount{
+            if let Some(head) = self.body.get(0){
+                let mut location = head.1.clone();
+                let new_head = (head.0.clone(), match head.0{
+                    Direction::UP => {location.y -= 1; location},
+                    Direction::DOWN =>{ location.y += 1; location},
+                    Direction::RIGHT => {location.x += 1; location},
+                    Direction::LEFT => {location.x -= 1; location},
+    
+                });
+                self.body.insert(0, new_head);
+            }
+           
         }
-       
     }
 }
 
